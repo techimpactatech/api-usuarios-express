@@ -4,8 +4,8 @@
   "description": "Projeto Express.js estruturado com Express Router e Sequelize",
   "main": "index.js",
   "scripts": {
-  "start": "node src/server.js",
-  "dev": "nodemon --config nodemon.json"
+    "start": "node src/server.js",
+    "dev": "nodemon --config nodemon.json"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/techimpactatech/api-usuarios-express#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "pg": "^8.16.3",
     "pg-hstore": "^2.3.4",

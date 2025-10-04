@@ -25,9 +25,6 @@
  *                 title:  "Requisição inválida"
  *                 status: 400
  *                 detail: "Dados inválidos"
- *                 errors:
- *                   email: "deve ser um e-mail válido"
- *                   nome:  "não deve estar em branco"
  *
  *     Problem409:
  *       description: Conflito

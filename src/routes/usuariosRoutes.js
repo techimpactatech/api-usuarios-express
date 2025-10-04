@@ -4,54 +4,31 @@ const c = require('../controllers/usuarioController');
 
 /**
  * @swagger
- * components:
- *   schemas:
- *     Usuario:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *           example: 1
- *         nome:
- *           type: string
- *           example: "Ana Silva"
- *         email:
- *           type: string
- *           example: "ana@exemplo.com"
- *         data_criacao:
- *           type: string
- *           format: date-time
- *           example: "2025-10-02T23:59:59Z"
- *
- *     Problem:
- *       type: object
- *       properties:
- *         title:
- *           type: string
- *           example: "Recurso não encontrado"
- *         status:
- *           type: integer
- *           example: 404
- *         detail:
- *           type: string
- *           example: "Usuário não encontrado"
+ * tags:
+ *   - name: Usuários
+ *     description: Operações CRUD sobre a entidade Usuário
  */
 
 /**
  * @swagger
  * /usuarios:
  *   get:
- *     summary: Listar todos os usuários
+ *     summary: Listar usuários
  *     tags: [Usuários]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema: { type: integer, minimum: 0, default: 0 }
+ *       - in: query
+ *         name: size
+ *         schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
  *     responses:
  *       200:
- *         description: Lista de usuários
+ *         description: Lista paginada de usuários
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Usuario'
+ *               $ref: '#/components/schemas/PageUsuario'
  */
 router.get('/', c.listar);
 
@@ -75,11 +52,7 @@ router.get('/', c.listar);
  *             schema:
  *               $ref: '#/components/schemas/Usuario'
  *       404:
- *         description: Usuário não encontrado
- *         content:
- *           application/problem+json:
- *             schema:
- *               $ref: '#/components/schemas/Problem'
+ *         $ref: '#/components/responses/Problem404'
  */
 router.get('/:id', c.obter);
 
@@ -97,12 +70,8 @@ router.get('/:id', c.obter);
  *             type: object
  *             required: [nome, email]
  *             properties:
- *               nome:
- *                 type: string
- *                 example: "Ana Silva"
- *               email:
- *                 type: string
- *                 example: "ana@exemplo.com"
+ *               nome:  { type: string, example: "Ana Silva" }
+ *               email: { type: string, example: "ana@exemplo.com" }
  *     responses:
  *       201:
  *         description: Usuário criado
@@ -111,17 +80,9 @@ router.get('/:id', c.obter);
  *             schema:
  *               $ref: '#/components/schemas/Usuario'
  *       400:
- *         description: Requisição inválida
- *         content:
- *           application/problem+json:
- *             schema:
- *               $ref: '#/components/schemas/Problem'
+ *         $ref: '#/components/responses/Problem400'
  *       409:
- *         description: E-mail já cadastrado
- *         content:
- *           application/problem+json:
- *             schema:
- *               $ref: '#/components/schemas/Problem'
+ *         $ref: '#/components/responses/Problem409'
  */
 router.post('/', c.criar);
 
@@ -135,21 +96,13 @@ router.post('/', c.criar);
  *       - in: path
  *         name: id
  *         required: true
- *         schema:
- *           type: integer
+ *         schema: { type: integer }
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             properties:
- *               nome:
- *                 type: string
- *                 example: "Novo Nome"
- *               email:
- *                 type: string
- *                 example: "novo@exemplo.com"
  *     responses:
  *       200:
  *         description: Usuário atualizado
@@ -158,17 +111,9 @@ router.post('/', c.criar);
  *             schema:
  *               $ref: '#/components/schemas/Usuario'
  *       404:
- *         description: Usuário não encontrado
- *         content:
- *           application/problem+json:
- *             schema:
- *               $ref: '#/components/schemas/Problem'
+ *         $ref: '#/components/responses/Problem404'
  *       409:
- *         description: E-mail já cadastrado
- *         content:
- *           application/problem+json:
- *             schema:
- *               $ref: '#/components/schemas/Problem'
+ *         $ref: '#/components/responses/Problem409'
  */
 router.put('/:id', c.atualizar);
 
@@ -182,17 +127,12 @@ router.put('/:id', c.atualizar);
  *       - in: path
  *         name: id
  *         required: true
- *         schema:
- *           type: integer
+ *         schema: { type: integer }
  *     responses:
  *       204:
  *         description: Removido com sucesso
  *       404:
- *         description: Usuário não encontrado
- *         content:
- *           application/problem+json:
- *             schema:
- *               $ref: '#/components/schemas/Problem'
+ *         $ref: '#/components/responses/Problem404'
  */
 router.delete('/:id', c.remover);
 

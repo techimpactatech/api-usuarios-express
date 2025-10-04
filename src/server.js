@@ -1,22 +1,31 @@
 const express = require('express');
+const cors = require('cors');
 const usuariosRoutes = require('./routes/usuariosRoutes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger');
+const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
 
-// Middleware para JSON
+app.use(cors({ origin: '*', methods: ['GET','POST','PUT','DELETE','OPTIONS'] }));
 app.use(express.json());
 
-// Rotas
 app.use('/usuarios', usuariosRoutes);
-
-// Documentação Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Porta
+// 404 genérico (Problem+JSON) para rotas inexistentes
+app.use((req, res) => {
+  res.status(404).type('application/problem+json').json({
+    title: 'Recurso não encontrado',
+    status: 404,
+    detail: 'Endpoint não existe',
+  });
+});
+
+app.use(errorHandler);
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
-  console.log(`📖 Swagger disponível em http://localhost:${PORT}/api-docs`);
+  console.log(`📖 Swagger: http://localhost:${PORT}/api-docs`);
 });

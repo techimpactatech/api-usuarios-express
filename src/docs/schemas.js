@@ -45,9 +45,6 @@
  *                 title:  "Requisição inválida"
  *                 status: 400
  *                 detail: "Dados inválidos"
- *                 errors:
- *                   nome:  "não deve estar em branco"
- *                   email: "deve ser um e-mail válido"
 
  *     Problem404:
  *       description: Recurso não encontrado
